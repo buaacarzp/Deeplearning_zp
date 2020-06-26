@@ -6,11 +6,14 @@ from keras.preprocessing import image
 from keras.utils import layer_utils
 from keras.utils.data_utils import get_file
 from keras.applications.imagenet_utils import preprocess_input
-# import pydot
+import pydot
 from IPython.display import SVG
 from keras.utils.vis_utils import model_to_dot
 from keras.utils import plot_model
+
+# from keras.utils import plot_model
 # from resnets_utils import *
+from keras.utils.vis_utils import plot_model
 from keras.initializers import glorot_uniform
 import scipy.misc
 import matplotlib.pyplot as plt
@@ -112,3 +115,5 @@ def ResNet50(input_shape = (64, 64, 3), classes = 6):
     
     return model
 model =ResNet50()
+plot_model(model,show_shapes=True,to_file="model.png")
+# model_to_dot(model,show_shapes=True).create(prog='dot', format='svg')

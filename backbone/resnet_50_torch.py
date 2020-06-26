@@ -54,6 +54,12 @@ class ResNet(nn.Module):
         self.layer4 = self.make_layer(in_places=1024,places=512,block =blocks[3],stride=2)
         self.avgpool = nn.AvgPool2d(7, stride=1)
         self.fc = nn.Linear(2048,num_classes)
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
     def make_layer(self, in_places, places, block, stride): #针对每一个stage
         layers = []
         layers.append(Bottleneck(in_places, places,stride, downsampling =True))
@@ -87,6 +93,8 @@ model.fc = nn.Sequential(
     nn.LogSoftmax(dim=1)
 )
 print(model)
+a =list( model.named_parameters())
+print(a)
 # for k in model.modules():
 #     print(k)
 # out =model(inputs)
