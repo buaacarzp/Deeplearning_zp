@@ -79,26 +79,16 @@ class ResNet(nn.Module):
         X = X.view(X.size(0), -1)
         X = self.fc(X)
         return X
-inputs = torch.randn(1, 3, 224, 224)
-blocks =[3,4,6,3]
-model  = ResNet(blocks)
-channel_in = model.fc.in_features
-print(channel_in)
-class_num = 2
-model.fc = nn.Sequential(
-    nn.Linear(channel_in, class_num),
-    nn.ReLU(),
-    # nn.Dropout(0.4),
-    # nn.Linear(256, class_num),
-    nn.LogSoftmax(dim=1)
-)
-print(model)
-a =list( model.named_parameters())
-print(a)
-# for k in model.modules():
-#     print(k)
-# out =model(inputs)
-# print(out[0][0])
-# model.load_state_dict(torch.load('./model/resnet_50.pth'),False)
-# out =model(inputs)
-# print(out[0][0])
+if __name__ =="__main__":
+    inputs = torch.randn(1, 3, 224, 224)
+    blocks =[3,4,6,3]
+    model  = ResNet(blocks)
+    channel_in = model.fc.in_features
+    class_num = 2
+    model.fc = nn.Sequential(
+        nn.Linear(channel_in, class_num),
+        nn.ReLU(),
+        nn.LogSoftmax(dim=1))
+    model.load_state_dict(torch.load())
+
+
